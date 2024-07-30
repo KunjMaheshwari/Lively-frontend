@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom'; // Import useLocation
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import io from "socket.io-client";
 
@@ -16,10 +15,10 @@ const ENDPOINT = 'https://lively-chat-application.onrender.com/';
 let socket;
 
 const Chat = () => {
-  const location = useLocation(); // Use useLocation hook
+  const location = useLocation();
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
-  const [users, setUsers] = useState('');
+  const [users, setUsers] = useState([]);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -44,8 +43,8 @@ const Chat = () => {
   }, [location.search]);
 
   useEffect(() => {
-    socket.on('message', message => {
-      setMessages(messages => [...messages, message]);
+    socket.on('message', (message) => {
+      setMessages((messages) => [...messages, message]);
     });
 
     socket.on("roomData", ({ users }) => {
